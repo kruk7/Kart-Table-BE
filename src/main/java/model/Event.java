@@ -24,5 +24,13 @@ public class Event {
 
     public Event() {}
 
-
+    public Long getId() { return id; }
+    public Time getTime() { return time; }
+    public void setTime(Time time) { this.time = time; }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
+    public Track getTrack() { return track; }
+    public void setTrack(Track track) { this.track = track; }
+    public Set<Lap> getLaps() { return laps; }
+    public void setLaps(Set<Lap> laps) { this.laps = laps; }
 }

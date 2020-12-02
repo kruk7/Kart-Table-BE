@@ -1,15 +1,27 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Player.findAll",
+                    query = "SELECT p FROM Player p"),
+        @NamedQuery(name = "Player.findInEnent",
+                    query = "SELECT p FROM Player p where p.event = :event")
+})
+
 @Table(name = "players")
 public class Player implements Serializable {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "player_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,12 +34,16 @@ public class Player implements Serializable {
     @Column(nullable = false, length = 3)
     private String alias;
 
+
     @ManyToOne
     @JoinColumn(name = "id_event")
+    @JsonManagedReference
     private Event event;
 
-    @OneToMany(mappedBy = "player")
-    private Set<Lap> laps;
+    //@JsonbTransient
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    @JsonBackReference
+    private List<Lap> laps;
 
     public Player() {};
 
@@ -43,7 +59,7 @@ public class Player implements Serializable {
     public String getAlias()
     { return alias; }
 
-    public Set<Lap> getLaps()
+    public List<Lap> getLaps()
     { return laps; }
 
     public Event getEvent()
@@ -58,7 +74,7 @@ public class Player implements Serializable {
     public void setAlias(String alias)
     { this.alias = alias.substring(0,3).toUpperCase(); }
 
-    public void setLaps(Set<Lap> laps)
+    public void setLaps(List<Lap> laps)
     { this.laps = laps; }
 
     public void setEvent(Event event)

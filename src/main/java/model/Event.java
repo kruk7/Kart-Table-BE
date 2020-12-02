@@ -1,5 +1,8 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -11,7 +14,7 @@ import java.util.Set;
 public class Event implements Serializable {
 
     @Id
-    @Column(name = "events_id")
+    @Column(name = "event_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -21,11 +24,14 @@ public class Event implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_track")
+    @JsonManagedReference
     private Track track;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "event")
     private Set<Player> players;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "event")
     private Set<Lap> laps;
 

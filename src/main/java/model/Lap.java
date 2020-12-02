@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -16,11 +18,17 @@ public class Lap implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_player")
+    @JsonManagedReference
     private Player player;
 
     @ManyToOne
     @JoinColumn(name = "id_event")
+    @JsonManagedReference
     private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "id_track")
+    private Track track;
 
     public Lap() {}
 
@@ -36,6 +44,9 @@ public class Lap implements Serializable {
     public Event getEvent()
     { return event; }
 
+    public Track getTrack()
+    { return track; }
+
     public void setDuration(Long duration)
     { this.duration = duration; }
 
@@ -44,4 +55,7 @@ public class Lap implements Serializable {
 
     public void setEvent(Event event)
     { this.event = event; }
+
+    public void setTrack(Track track)
+    { this.track = track; }
 }

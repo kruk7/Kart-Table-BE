@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -9,8 +11,8 @@ import java.util.Set;
 public class Track implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "track_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -19,7 +21,11 @@ public class Track implements Serializable {
     private String location;
 
     @OneToMany(mappedBy = "track")
+    @JsonBackReference
     private Set<Event> events;
+
+    @OneToMany(mappedBy = "track")
+    private Set<Lap> laps;
 
     public Track() {}
 

@@ -1,5 +1,7 @@
 import model.Player;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 
@@ -19,7 +21,7 @@ public class PlayerClassTest {
     }
 
     @Test
-    void getAliasWithManualAssign(){
+    void getAliasWithManualAssign() {
         player1.setAlias("Stanisław");
         assertEquals("STA", player1.getAlias());
     }
@@ -31,7 +33,7 @@ public class PlayerClassTest {
     }
 
     @Test
-    void generateAliasPlayerAfterManualAssignAlias(){
+    void generateAliasPlayerAfterManualAssignAlias() {
         player1.setAlias("Zenon");
         Player.generateAlias(player1);
         assertEquals("ZEN", player1.getAlias());

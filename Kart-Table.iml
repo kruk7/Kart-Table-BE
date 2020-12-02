@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="Kart-Table" />
+          <factory-entry name="Kart-Table" value="e9a908ce-5290-47a5-b89a-67eaab29ac46" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
@@ -19,6 +19,10 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>

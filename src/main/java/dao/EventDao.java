@@ -1,13 +1,17 @@
 package dao;
 
 import model.Event;
-import java.util.Set;
+import model.Player;
+
+import java.util.List;
 
 public interface EventDao {
 
-    public void addEvent(Event event);
-    public void deleteEvent(Long id);
-    public Event getSingleEvent(Long id);
-    public Set<Event> getAllEvents();
+    void createEvent(Event event);
+    void deleteEvent(Long id);
+    Event getSingleEvent(Long id);
+    List<Event> getAllEvents();
+
+    void addPlayerToEvent(Player player);
 
 }

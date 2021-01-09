@@ -8,8 +8,10 @@ import javax.persistence.NoResultException;
 import javax.ws.rs.Produces;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/player")
@@ -26,10 +28,14 @@ public class PlayerEndpoint {
     public Response getSinglePlayer(@PathParam("id") Long id) {
         try {
             Player player = playerDao.getSinglePlayer(id);
-            return Response.ok(player).build();
-        } catch (NoResultException exception) {
-            exception.printStackTrace();
-            return Response.noContent().build();
+            return Response
+                    .ok(player)
+                    .build();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return Response
+                    .noContent()
+                    .build();
         }
     }
 
@@ -41,15 +47,22 @@ public class PlayerEndpoint {
                     .noContent()
                     .build();
         else
-            return Response.ok(allPlayer).build();
+            return Response
+                    .ok(allPlayer)
+                    .build();
     }
 
     @POST
-    public Response createPlayer(Player player) {
-        if (player != null){
+    public Response createPlayer(Player player, @Context UriInfo uriInfo) {
+        if (player != null && player.getId() == null){
             playerDao.createPlayer(player);
             return Response
-                    .status(Response.Status.CREATED)
+                    .created(uriInfo
+                                .getAbsolutePathBuilder()
+                                .path(player
+                                        .getId()
+                                        .toString())
+                                .build())
                     .build();
         }
         else

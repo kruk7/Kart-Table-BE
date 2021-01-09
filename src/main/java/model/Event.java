@@ -11,10 +11,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "events")
+@NamedQueries({
+        @NamedQuery(name = "Event.findAll",
+                    query = "SELECT e FROM Event e"
+        )
+})
 public class Event implements Serializable {
 
     @Id
-    @Column(name = "event_id")
+    @Column(name = "id_event")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,18 +27,18 @@ public class Event implements Serializable {
 
     private Date date;
 
+    //@JoinColumn(name = "id_track")
+    //@JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "id_track")
-    @JsonManagedReference
     private Track track;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "event")
+    //@JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "players_in_event",
+            joinColumns = {@JoinColumn(name = "event_id", referencedColumnName = "id_event")},
+            inverseJoinColumns = {@JoinColumn(name = "player_id", referencedColumnName = "id_player")})
     private Set<Player> players;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "event")
-    private Set<Lap> laps;
 
     public Event() {}
 
@@ -52,9 +57,6 @@ public class Event implements Serializable {
     public Set<Player> getPlayers()
     { return players; }
 
-    public Set<Lap> getLaps()
-    { return laps; }
-
     public void setTime(Time time)
     { this.time = time; }
 
@@ -66,7 +68,4 @@ public class Event implements Serializable {
 
     public void setPlayers(Set<Player> players)
     { this.players = players; }
-
-    public void setLaps(Set<Lap> laps)
-    { this.laps = laps; }
 }

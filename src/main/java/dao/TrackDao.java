@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface TrackDao {
 
-    public void addTrack(Track track);
+    public void createTrack(Track track);
     public void deleteTrack(Long id);
     public Track getSingleTrack(Long id);
     public Set<Track> getAllTracks();

@@ -11,7 +11,7 @@ import java.util.Set;
 public class Track implements Serializable {
 
     @Id
-    @Column(name = "track_id")
+    @Column(name = "id_track")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -19,10 +19,6 @@ public class Track implements Serializable {
     private String name;
 
     private String location;
-
-    @OneToMany(mappedBy = "track")
-    @JsonBackReference
-    private Set<Event> events;
 
     @OneToMany(mappedBy = "track")
     private Set<Lap> laps;
@@ -38,16 +34,9 @@ public class Track implements Serializable {
     public String getLocation()
     { return location; }
 
-    public Set<Event> getEvents()
-    { return events; }
-
     public void setName(String name)
     { this.name = name; }
 
     public void setLocation(String location)
     { this.location = location; }
-
-    public void setEvents(Set<Event> events)
-    { this.events = events; }
-
 }

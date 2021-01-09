@@ -10,21 +10,16 @@ import java.io.Serializable;
 public class Lap implements Serializable {
 
     @Id
-    @Column(name = "lap_id")
+    @Column(name = "id_lap")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long duration;
 
+    //@JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "id_player")
-    @JsonManagedReference
     private Player player;
-
-    @ManyToOne
-    @JoinColumn(name = "id_event")
-    @JsonManagedReference
-    private Event event;
 
     @ManyToOne
     @JoinColumn(name = "id_track")
@@ -41,9 +36,6 @@ public class Lap implements Serializable {
     public Player getPlayer()
     { return player; }
 
-    public Event getEvent()
-    { return event; }
-
     public Track getTrack()
     { return track; }
 
@@ -52,9 +44,6 @@ public class Lap implements Serializable {
 
     public void setPlayer(Player player)
     { this.player = player; }
-
-    public void setEvent(Event event)
-    { this.event = event; }
 
     public void setTrack(Track track)
     { this.track = track; }

@@ -8,12 +8,13 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Player.findAll",
                     query = "SELECT p FROM Player p"),
-        @NamedQuery(name = "Player.findInEnent",
+        @NamedQuery(name = "Player.findInEvent",
                     query = "SELECT p FROM Player p where p.event = :event")
 })
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class Player implements Serializable {
 
     @Id
-    @Column(name = "player_id")
+    @Column(name = "id_player")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -34,16 +35,14 @@ public class Player implements Serializable {
     @Column(nullable = false, length = 3)
     private String alias;
 
-
-    @ManyToOne
-    @JoinColumn(name = "id_event")
-    @JsonManagedReference
-    private Event event;
+    //@JsonManagedReference
+    @ManyToMany(mappedBy = "players")
+    private Set<Event> event;
 
     //@JsonbTransient
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     @JsonBackReference
-    private List<Lap> laps;
+    private Set<Lap> laps;
 
     public Player() {};
 
@@ -59,10 +58,10 @@ public class Player implements Serializable {
     public String getAlias()
     { return alias; }
 
-    public List<Lap> getLaps()
+    public Set<Lap> getLaps()
     { return laps; }
 
-    public Event getEvent()
+    public Set<Event> getEvent()
     { return event; }
 
     public void setFirstName(String firstName)
@@ -74,10 +73,10 @@ public class Player implements Serializable {
     public void setAlias(String alias)
     { this.alias = alias.substring(0,3).toUpperCase(); }
 
-    public void setLaps(List<Lap> laps)
+    public void setLaps(Set<Lap> laps)
     { this.laps = laps; }
 
-    public void setEvent(Event event)
+    public void setEvent(Set<Event> event)
     { this.event = event; }
 
     public static Player generateAlias(Player player) {

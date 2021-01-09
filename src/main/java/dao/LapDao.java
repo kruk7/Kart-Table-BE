@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LapDao {
 
-    public void addLap(Lap lap);
+    public void createLap(Lap lap);
     public void deleteLap(Long id);
     public List<Lap> getAllPlayerLapsInEvent(Player player, Event event);
     public List<Lap> getMostFasterLapsOnTrack(Track track, int countOfResult);

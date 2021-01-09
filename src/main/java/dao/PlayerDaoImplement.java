@@ -1,10 +1,10 @@
 package dao;
 
 import model.Event;
+import model.Lap;
 import model.Player;
 
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -27,12 +27,24 @@ public class PlayerDaoImplement implements PlayerDao {
     @Override
     @Transactional
     public void deletePlayer(Long id) {
-        Player player = em.find(Player.class, id);
-        em.remove(player);
+        em.remove(getSinglePlayer(id));
     }
 
     @Override
-    //@Transactional
+    public void addLapToPlayer(Lap lap, Long playerId) {
+        try {
+            if ( lap != null && lap.getTrack() != null && lap.getPlayer() == null ) {
+                Player player = em.getReference(Player.class, playerId);
+                lap.setPlayer(player);
+                em.persist(lap);
+            }
+            else throw new Exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Player getSinglePlayer(Long id) {
         Player player = em.find(Player.class, id);
         return player;
@@ -40,15 +52,13 @@ public class PlayerDaoImplement implements PlayerDao {
 
     @Override
     public List<Player> getAllPlayers() {
-        //TypedQuery<Player> query = em.createQuery("SELECT p.id, p.firstName from Player p", Player.class);
-
         TypedQuery<Player> query = em.createNamedQuery("Player.findAll", Player.class);
         return query.getResultList();
     }
 
     @Override
     public List<Player> getPlayersInEvent(Event event) {
-        TypedQuery <Player> query = em.createNamedQuery("Player.findInEnent", Player.class);
+        TypedQuery<Player> query = em.createNamedQuery("Player.findInEvent", Player.class);
         query.setParameter("event", event);
         List<Player> allPlayers = query.getResultList();
         return allPlayers;

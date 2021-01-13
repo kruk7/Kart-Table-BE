@@ -27,17 +27,16 @@ public class Event implements Serializable {
 
     private Date date;
 
-    //@JoinColumn(name = "id_track")
     //@JsonManagedReference
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "track_id")
     private Track track;
 
     //@JsonBackReference
     @ManyToMany
-    @JoinTable(
-            name = "players_in_event",
-            joinColumns = {@JoinColumn(name = "event_id", referencedColumnName = "id_event")},
-            inverseJoinColumns = {@JoinColumn(name = "player_id", referencedColumnName = "id_player")})
+    @JoinTable(name = "players_in_event",
+               joinColumns = {@JoinColumn(name = "event_id", referencedColumnName = "id_event")},
+               inverseJoinColumns = {@JoinColumn(name = "player_id", referencedColumnName = "id_player")})
     private Set<Player> players;
 
     public Event() {}

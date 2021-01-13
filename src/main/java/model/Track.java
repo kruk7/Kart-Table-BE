@@ -4,9 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Track.findAll",
+                query = "SELECT t FROM Track t")
+})
 @Table(name = "tracks")
 public class Track implements Serializable {
 
@@ -20,8 +25,8 @@ public class Track implements Serializable {
 
     private String location;
 
-    @OneToMany(mappedBy = "track")
-    private Set<Lap> laps;
+    @OneToMany(mappedBy = "track",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Lap> laps;
 
     public Track() {}
 

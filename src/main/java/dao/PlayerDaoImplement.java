@@ -31,14 +31,20 @@ public class PlayerDaoImplement implements PlayerDao {
     }
 
     @Override
+    @Transactional
+    public void updatePlayer(Player player) {
+        em.merge(player);
+    }
+
+    @Override
+    @Transactional
     public void addLapToPlayer(Lap lap, Long playerId) {
         try {
-            if ( lap != null && lap.getTrack() != null && lap.getPlayer() == null ) {
+            if (lap != null && lap.getTrack() != null && lap.getPlayer() == null) {
                 Player player = em.getReference(Player.class, playerId);
                 lap.setPlayer(player);
                 em.persist(lap);
-            }
-            else throw new Exception();
+            } else throw new Exception();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,8 +52,7 @@ public class PlayerDaoImplement implements PlayerDao {
 
     @Override
     public Player getSinglePlayer(Long id) {
-        Player player = em.find(Player.class, id);
-        return player;
+        return em.find(Player.class, id);
     }
 
     @Override

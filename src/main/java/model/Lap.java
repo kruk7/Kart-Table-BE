@@ -18,11 +18,11 @@ public class Lap implements Serializable {
 
     //@JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "id_player")
+    @JoinColumn(name = "player_id")
     private Player player;
 
     @ManyToOne
-    @JoinColumn(name = "id_track")
+    @JoinColumn(name = "track_id")
     private Track track;
 
     public Lap() {}

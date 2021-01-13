@@ -9,6 +9,7 @@ public interface PlayerDao {
 
     void createPlayer(Player player);
     void deletePlayer(Long id);
+    void updatePlayer(Player player);
     void addLapToPlayer(Lap lap, Long idPlayer);
     Player getSinglePlayer(Long id);
     List<Player> getAllPlayers();

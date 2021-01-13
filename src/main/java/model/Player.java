@@ -40,8 +40,8 @@ public class Player implements Serializable {
     private Set<Event> event;
 
     //@JsonbTransient
-    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
-    @JsonBackReference
+    //@JsonBackReference
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Lap> laps;
 
     public Player() {};

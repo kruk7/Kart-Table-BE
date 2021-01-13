@@ -53,7 +53,7 @@ public class TrackEndpoint {
 
     @POST
     public Response createTrack(Track track, @Context UriInfo uriInfo) {
-        if (track != null && track.getId() == null) {
+        if (track != null && track.getId() == null ) {
             trackDao.createTrack(track);
             return Response
                     .created(uriInfo
@@ -79,15 +79,17 @@ public class TrackEndpoint {
     }
 
     @PUT
-    public Response updateTrack(Track track) {
+    @Path("/{id}")
+    public Response updateTrack(Track track, @PathParam("id") Long id) {
         if (track != null) {
-            trackDao.updateTrack(track);
+            trackDao.updateTrack(track, id);
             return Response
                     .ok()
                     .build();
         } else
             return Response
                     .status(Response.Status.BAD_REQUEST)
+                    .entity("An empty Track object reference was sent")
                     .build();
     }
 }

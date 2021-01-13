@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Track.findAll",
-                query = "SELECT t FROM Track t")
+        @NamedQuery(name = "Track.findAll", query = "SELECT t FROM Track t"),
+        @NamedQuery(name = "Track.ifExist", query = "SELECT COUNT(t) FROM Track t WHERE t.name = :name")
 })
 @Table(name = "tracks")
 public class Track implements Serializable {

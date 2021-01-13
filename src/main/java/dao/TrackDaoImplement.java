@@ -1,6 +1,5 @@
 package dao;
 
-import model.Player;
 import model.Track;
 
 import javax.ejb.Stateless;
@@ -8,13 +7,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Set;
 
 @Stateless
 public class TrackDaoImplement implements TrackDao {
 
     @PersistenceContext
     EntityManager em;
+
+    @Override
+    public boolean ifExist(String name) {
+        TypedQuery<Long> query = em.createNamedQuery("Track.ifExist", Long.class);
+        query.setParameter("name", name);
+        System.out.println(query.getSingleResult());
+        return query.getSingleResult() > 0L;
+    }
 
     @Override
     public void createTrack(Track track) {
@@ -28,10 +34,10 @@ public class TrackDaoImplement implements TrackDao {
     }
 
     @Override
-    public void updateTrack(Track editedTrack) {
-        Track track = em.find(Track.class, editedTrack.getId());
-        track.setName(editedTrack.getName());
-        track.setLocation(editedTrack.getLocation());
+    public void updateTrack(Track track, Long id) {
+        Track persistTrack = em.find(Track.class, id);
+        persistTrack.setName(track.getName());
+        persistTrack.setLocation(track.getLocation());
 
     }
 

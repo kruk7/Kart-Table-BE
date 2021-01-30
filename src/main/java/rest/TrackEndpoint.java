@@ -53,7 +53,14 @@ public class TrackEndpoint {
 
     @POST
     public Response createTrack(Track track, @Context UriInfo uriInfo) {
-        if (track != null && track.getId() == null ) {
+
+        if (track == null && track.getId() != null)
+            throw new BadRequestException("Received null object reference or id param has assigning value");
+
+        else if (trackDao.ifExist(track.getName()))
+            throw new BadRequestException("An object with that name already exists");
+
+        else {
             trackDao.createTrack(track);
             return Response
                     .created(uriInfo
@@ -63,10 +70,7 @@ public class TrackEndpoint {
                                     .toString())
                             .build())
                     .build();
-        } else
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .build();
+        }
     }
 
     @DELETE

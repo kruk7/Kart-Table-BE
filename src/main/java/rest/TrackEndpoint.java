@@ -76,24 +76,37 @@ public class TrackEndpoint {
     @DELETE
     @Path("/{id}")
     public Response deleteTrack(@PathParam("id") Long id) {
-        trackDao.deleteTrack(id);
-        return Response
-                .ok()
-                .build();
+
+        Track track = trackDao.getSingleTrack(id);
+
+        if (track == null)
+            throw new NotFoundException("The object with the identifier: " + id + " does not exist");
+
+        else {
+            trackDao.deleteTrack(id);
+            return Response
+                    .ok("The object with the identifier: " + id + " has been deleted")
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
     }
 
     @PUT
     @Path("/{id}")
     public Response updateTrack(Track track, @PathParam("id") Long id) {
-        if (track != null) {
+
+        if (track == null)
+            throw new BadRequestException("Received null object reference");
+
+        else if (trackDao.ifExist(track.getName()))
+            throw new BadRequestException("An object with that name already exists");
+
+        else {
             trackDao.updateTrack(track, id);
             return Response
-                    .ok()
+                    .ok("The object with the identifier: " + id + " has been updated")
+                    .type(MediaType.TEXT_PLAIN_TYPE)
                     .build();
-        } else
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity("An empty Track object reference was sent")
-                    .build();
+        }
     }
 }

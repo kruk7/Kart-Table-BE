@@ -18,7 +18,6 @@ public class TrackDaoImplement implements TrackDao {
     public boolean ifExist(String name) {
         TypedQuery<Long> query = em.createNamedQuery("Track.ifExist", Long.class);
         query.setParameter("name", name);
-        System.out.println(query.getSingleResult());
         return query.getSingleResult() > 0L;
     }
 

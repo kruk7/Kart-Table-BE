@@ -12,10 +12,8 @@ import java.util.Set;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Player.findAll",
-                    query = "SELECT p FROM Player p"),
-        @NamedQuery(name = "Player.findInEvent",
-                    query = "SELECT p FROM Player p where p.event = :event")
+        @NamedQuery(name = "Player.findAll", query = "SELECT p FROM Player p"),
+        @NamedQuery(name = "Player.findInEvent", query = "SELECT p FROM Player p where p.event = :event")
 })
 
 @Table(name = "players")

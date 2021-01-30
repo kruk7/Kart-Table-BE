@@ -12,5 +12,11 @@
   <body>
   <h2>Kart-Table Rest API</h2>
   You've connected to server successfully...
+  <br><br>
+  Develop by: Kamil Raven
+  <br>
+  Contact: kruk7@vp.pl
+  <br>
+  Version: 1.0
   </body>
 </html>

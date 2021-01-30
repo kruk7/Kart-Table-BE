@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
-@Path("/player")
+@Path("/players")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -26,6 +26,10 @@ public class PlayerEndpoint {
     @GET
     @Path("/{id}")
     public Response getSinglePlayer(@PathParam("id") Long id) {
+        Response.ResponseBuilder builder = null;
+        builder.language("PL")
+                .header("elo", "elo")
+                .entity("mad");
         try {
             Player player = playerDao.getSinglePlayer(id);
             return Response

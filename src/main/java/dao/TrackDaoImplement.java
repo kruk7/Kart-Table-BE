@@ -28,7 +28,7 @@ public class TrackDaoImplement implements TrackDao {
 
     @Override
     public void deleteTrack(Long id) {
-        Track track = em.find(Track.class, id);
+        Track track = em.getReference(Track.class, id);
         em.remove(track);
     }
 
@@ -37,7 +37,6 @@ public class TrackDaoImplement implements TrackDao {
         Track persistTrack = em.find(Track.class, id);
         persistTrack.setName(track.getName());
         persistTrack.setLocation(track.getLocation());
-
     }
 
     @Override

@@ -28,7 +28,6 @@ public class PlayerEndpoint {
     public Response getSinglePlayer(@PathParam("id") Long id) {
         Response.ResponseBuilder builder = null;
         builder.language("PL")
-                .header("elo", "elo")
                 .entity("mad");
         try {
             Player player = playerDao.getSinglePlayer(id);

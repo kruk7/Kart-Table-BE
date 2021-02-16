@@ -1,6 +1,8 @@
 package rest;
 
 import dao.TrackDao;
+import exception.DataNotFoundException;
+import exception.EntityDuplicateValueException;
 import model.Track;
 
 import javax.enterprise.context.RequestScoped;
@@ -12,11 +14,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 @Path("/tracks")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
 public class TrackEndpoint {
 
     @Inject
@@ -54,11 +57,15 @@ public class TrackEndpoint {
     @POST
     public Response createTrack(Track track, @Context UriInfo uriInfo) {
 
-        if (track == null && track.getId() != null)
-            throw new BadRequestException("Received null object reference or id param has assigning value");
-
-        else if (trackDao.ifExist(track.getName()))
-            throw new BadRequestException("An object with that name already exists");
+        if (track == null){
+            throw new DataNotFoundException("Received null object reference");
+        }
+        else if (track.getId() != null){
+            throw new BadRequestException("id param has assigning value");
+        }
+        else if (trackDao.ifExist(track.getName())){
+            throw new EntityDuplicateValueException("An object with that name already exists");
+        }
 
         else {
             trackDao.createTrack(track);

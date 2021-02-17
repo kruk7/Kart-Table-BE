@@ -2,16 +2,19 @@ package model;
 
 public class ErrorMessage {
 
+    private int statusCode;
     private String errorMessage;
-    private int errorCode;
 
     public ErrorMessage() {}
 
-    public ErrorMessage(String errorMessage, int errorCode) {
+    public ErrorMessage(int statusCode, String errorMessage) {
         super();
+        this.statusCode = statusCode;
         this.errorMessage = errorMessage;
-        this.errorCode = errorCode;
     }
+
+    public int getStatusCode()
+    { return statusCode; }
 
     public String getErrorMessage()
     { return errorMessage; }
@@ -19,9 +22,6 @@ public class ErrorMessage {
     public void setErrorMessage(String errorMessage)
     { this.errorMessage = errorMessage; }
 
-    public int getErrorCode()
-    { return errorCode; }
-
-    public void setErrorCode(int errorCode)
-    { this.errorCode = errorCode; }
+    public void setStatusCode(int statusCode)
+    { this.statusCode = statusCode; }
 }

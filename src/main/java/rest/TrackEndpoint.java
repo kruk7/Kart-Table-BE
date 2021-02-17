@@ -87,7 +87,7 @@ public class TrackEndpoint {
         Track track = trackDao.getSingleTrack(id);
 
         if (track == null)
-            throw new NotFoundException("The object with the identifier: " + id + " does not exist");
+            throw new DataNotFoundException("The object with the identifier: " + id + " does not exist");
 
         else {
             trackDao.deleteTrack(id);

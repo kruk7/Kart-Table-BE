@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 @Path("/tracks")
 @RequestScoped
@@ -58,13 +57,13 @@ public class TrackEndpoint {
     public Response createTrack(Track track, @Context UriInfo uriInfo) {
 
         if (track == null){
-            throw new DataNotFoundException("Received null object reference");
+            throw new DataNotFoundException("Received null Track reference");
         }
         else if (track.getId() != null){
             throw new BadRequestException("id param has assigning value");
         }
         else if (trackDao.ifExist(track.getName())){
-            throw new EntityDuplicateValueException("An object with that name already exists");
+            throw new EntityDuplicateValueException("The Track with that name already exists");
         }
 
         else {
@@ -87,12 +86,12 @@ public class TrackEndpoint {
         Track track = trackDao.getSingleTrack(id);
 
         if (track == null)
-            throw new DataNotFoundException("The object with the identifier: " + id + " does not exist");
+            throw new DataNotFoundException("The Track with the identifier: " + id + " does not exist");
 
         else {
             trackDao.deleteTrack(id);
             return Response
-                    .ok("The object with the identifier: " + id + " has been deleted")
+                    .ok("The Track with the identifier: " + id + " has been deleted")
                     .type(MediaType.TEXT_PLAIN_TYPE)
                     .build();
         }
@@ -103,15 +102,15 @@ public class TrackEndpoint {
     public Response updateTrack(Track track, @PathParam("id") Long id) {
 
         if (track == null)
-            throw new BadRequestException("Received null object reference");
+            throw new BadRequestException("Received null Track reference");
 
         else if (trackDao.ifExist(track.getName()))
-            throw new BadRequestException("An object with that name already exists");
+            throw new EntityDuplicateValueException("An Track with that name already exists");
 
         else {
             trackDao.updateTrack(track, id);
             return Response
-                    .ok("The object with the identifier: " + id + " has been updated")
+                    .ok("The Track with the identifier: " + id + " has been updated")
                     .type(MediaType.TEXT_PLAIN_TYPE)
                     .build();
         }

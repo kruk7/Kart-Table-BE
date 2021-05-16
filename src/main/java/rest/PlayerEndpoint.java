@@ -1,12 +1,12 @@
 package rest;
 
 import dao.PlayerDao;
+import exception.DataNotFoundException;
 import model.Player;
 
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.NoResultException;
-import javax.ws.rs.Produces;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -26,9 +26,6 @@ public class PlayerEndpoint {
     @GET
     @Path("/{id}")
     public Response getSinglePlayer(@PathParam("id") Long id) {
-        Response.ResponseBuilder builder = null;
-        builder.language("PL")
-                .entity("mad");
         try {
             Player player = playerDao.getSinglePlayer(id);
             return Response
@@ -57,18 +54,22 @@ public class PlayerEndpoint {
 
     @POST
     public Response createPlayer(Player player, @Context UriInfo uriInfo) {
-        if (player != null && player.getId() == null){
+
+        if (player == null) {
+            throw new DataNotFoundException("Received null Player reference");
+        }
+
+        else if (player.getId() == null) {
             playerDao.createPlayer(player);
             return Response
                     .created(uriInfo
-                                .getAbsolutePathBuilder()
-                                .path(player
-                                        .getId()
-                                        .toString())
-                                .build())
+                            .getAbsolutePathBuilder()
+                            .path(player
+                                    .getId()
+                                    .toString())
+                            .build())
                     .build();
-        }
-        else
+        } else
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .build();

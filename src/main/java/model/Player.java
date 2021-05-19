@@ -80,9 +80,12 @@ public class Player implements Serializable {
     public static Player generateAlias(Player player) {
         if (player.alias == null) {
             char[] newAlias = {'0','0','0'};
-            newAlias[0] = player.firstName.charAt(0);
-            newAlias[1] = player.lastName.charAt(0);
-            newAlias[2] = player.lastName.charAt(1);
+            if (player.getFirstName().length() > 0)
+                newAlias[0] = player.firstName.charAt(0);
+            if (player.getLastName().length() > 0)
+                newAlias[1] = player.lastName.charAt(0);
+            if (player.getLastName().length() > 1)
+                newAlias[2] = player.lastName.charAt(1);
             player.alias = String.valueOf(newAlias).toUpperCase();
         }
         return player;

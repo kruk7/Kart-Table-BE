@@ -1,54 +1,69 @@
 package model;
 
-import model.Player;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PlayerClassTest {
 
-    Player player1, player2;
+    Player player;
 
-    public PlayerClassTest() {
-        player1 = new Player();
-        player1.setFirstName("Jan");
-        player1.setLastName("Kowalski");
-
-        player2 = new Player();
-        player2.setFirstName("J");
-        player2.setLastName("K");
+    @BeforeEach
+    void setUp() {
+        player = new Player();
+        player.setFirstName("Jan");
+        player.setLastName("Kowalski");
     }
 
     @Test
     void getNullAliasPlayer() {
-        assertNull(player1.getAlias());
+        //Then
+        assertNull(player.getAlias());
     }
 
     @Test
     void getAliasWithManualAssign() {
-        player1.setAlias("Stanisław");
-        assertEquals("STA", player1.getAlias());
+        //When
+        player.setAlias("Stanisław");
+
+        //Then
+        assertEquals("STA", player.getAlias());
     }
 
     @Test
     void generateAliasPlayer() {
-        Player.generateAlias(player1);
-        assertEquals("JKO", player1.getAlias());
+        //When
+        Player.generateAlias(player);
+
+        //Then
+        assertEquals("JKO", player.getAlias());
     }
 
     @Test
     void generateAliasPlayerAfterManualAssignAlias() {
-        player1.setAlias("Zenon");
-        Player.generateAlias(player1);
-        assertEquals("ZEN", player1.getAlias());
+        //Given
+        player.setAlias("Zenon");
+
+        //When
+        Player.generateAlias(player);
+
+        //Then
+        assertEquals("ZEN", player.getAlias());
     }
 
     @Test
     void generateIncompliteAlias() {
-        Player.generateAlias(player2);
-        assertEquals("JK0", player2.getAlias());
+        //Given
+        player.setFirstName("J");
+        player.setLastName("K");
+
+        //When
+        Player.generateAlias(player);
+
+        //Then
+        assertEquals("JK0", player.getAlias());
     }
 
 
